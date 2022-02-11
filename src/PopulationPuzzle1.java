@@ -1,6 +1,8 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.*;
 
 public class PopulationPuzzle1 {
 
@@ -11,14 +13,16 @@ public class PopulationPuzzle1 {
     }
 
     void populate(ArrayList<Float> allNums) {
+        ArrayList<Float> temp = allNums;
         //Populations size of 20 for now
         for(int i = 0; i < 20; i++) {
-            ArrayList<Float> allNumsRandom = allNums;
+            Collections.shuffle(temp);
             AllBins individual = new AllBins();
-            individual.fillAllBins(allNumsRandom);
+            individual.fillAllBins(temp);
             population.add(individual);
         }
     }
+
 
     int getFittestIndex() {
         int fittestIndex = 0;
@@ -57,6 +61,14 @@ public class PopulationPuzzle1 {
         return lowestFittestIndex;
     }
 
+    float totalScore() {
+        float totalScore = 0;
+        for(int i = 0; i < population.size(); i++) {
+            totalScore = totalScore + population.get(i).getScore();
+        }
+        return totalScore;
+    }
+
     AllBins get(int index) {
         return population.get(index);
     }
@@ -64,4 +76,16 @@ public class PopulationPuzzle1 {
     void add(AllBins individual) {
         population.add(individual);
     }
+
+    void remove(int index) {
+        population.remove(index);
+    }
+
+    float getProbability(int index) {
+        float indivScore = population.get(index).getScore();
+        float totalScore = totalScore();
+        float probability = indivScore/totalScore;
+        return probability;
+    }
+
 }
