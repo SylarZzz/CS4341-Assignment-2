@@ -8,7 +8,7 @@ public class Main {
 
         // For future args input. Now directly use file path
         // File file = new File(args[1]);
-        File file = new File("/src/piece.txt");
+        File file = new File("src/pieces.txt");
         Scanner sc = new Scanner(file);
         ArrayList<TowerBlock> towerBlocks = new ArrayList<>();
 
