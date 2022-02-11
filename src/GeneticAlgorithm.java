@@ -2,12 +2,18 @@ package src;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class GeneticAlgorithm {
 
     //These are for the scenario that the file given is for puzzle 1
     PopulationPuzzle1 popPuz1 = new PopulationPuzzle1();
-    ArrayList<Float> allNums = new ArrayList<>();
+    ArrayList<Float> allNums;
+
+    public GeneticAlgorithm(ArrayList<Float> numbers) {
+        this.allNums = numbers;
+        popPuz1.populate(numbers);
+    }
 
     int genCount = 0;
 
@@ -23,44 +29,44 @@ public class GeneticAlgorithm {
         }
     }
 
-    //Removing 30% of the population
+    //Removing until no negative scores
     void culling() {
-        for(int i = 0; i < 6; i++) {
-            int leastFitindex = popPuz1.lowestFittestIndex();
-            popPuz1.remove(leastFitindex);
+        while(popPuz1.get(popPuz1.lowestFittestIndex()).getScore() < 0) {
+            int leastFitIndex = popPuz1.lowestFittestIndex();
+            popPuz1.remove(leastFitIndex);
         }
     }
 
     //Selection
-    void selection(int index1, int index2) {
+    ArrayList<Integer> selection() {
+        ArrayList<Integer> values = new ArrayList<>();
+        int index1 = -1;
+        int index2 = -1;
         ArrayList<Float> probabilityList = new ArrayList<>();
+        float totalProb = 0;
         for(int i = 0; i < popPuz1.population.size(); i++) {
-            float prob = 0;
-            prob = popPuz1.getProbability(i);
-            probabilityList.add(prob);
+            float prob = popPuz1.getProbability(i);
+            totalProb = totalProb + prob;
+            probabilityList.add(totalProb);
+            //System.out.println(totalProb);
         }
-        float random1 = -1;
-        float random2 = -1;
+        Random random = new Random();
+        float random1 = random.nextFloat();
+        float random2 = random.nextFloat();
         for(int i = 0; i < probabilityList.size(); i++) {
             if(i == 0) {
                 if(random1 > 0 && random1 < probabilityList.get(i)) {
                     index1 = i;
                 }
-                if(random2 > 0 && random2 < probabilityList.get(i) && index1 != i) {
-                    index2 = i;
-                }
             } else {
                 if(random1 > probabilityList.get(i-1) && random1 < probabilityList.get(i)) {
                     index1 = i;
-                }
-                if(random2 > probabilityList.get(i-1) && random2 < probabilityList.get(i) && index1 != i) {
-                    index2 = i;
                 }
             }
         }
         //In case both random floats are in the same range
         while(index2 == -1) {
-            random2 = -1; //This will reselect random2
+            random2 = random.nextFloat(); //This will reselect random2
             for(int i = 0; i < probabilityList.size(); i++) {
                 if(i == 0) {
                     if(random2 > 0 && random2 < probabilityList.get(i) && index1 != i) {
@@ -73,6 +79,9 @@ public class GeneticAlgorithm {
                 }
             }
         }
+        values.add(index1);
+        values.add(index2);
+        return values;
     }
 
     //Doing crossover between the two selected Individuals
@@ -139,8 +148,8 @@ public class GeneticAlgorithm {
     }
 
     void runGeneticAlgorithm() {
-        PopulationPuzzle1 nextGenPop = new PopulationPuzzle1();
         while(genCount < 20) {  //Here we have some sort of value, or selecting what our minimum fitness level is
+            PopulationPuzzle1 nextGenPop = new PopulationPuzzle1();
             genCount++;
 
             //Add two fittest parents from previous gen (Elitism)
@@ -155,9 +164,12 @@ public class GeneticAlgorithm {
             culling();
 
             //Selection
-            int selectedIndex1 = -1;
-            int selectedIndex2 = -1;
-            selection(selectedIndex1,selectedIndex2);
+
+            ArrayList<Integer> values = selection();
+            int selectedIndex1 = values.get(0);
+            int selectedIndex2 = values.get(1);
+//            System.out.println(selectedIndex1);
+//            System.out.println(selectedIndex2);
             AllBins selected1 = popPuz1.get(selectedIndex1);
             AllBins selected2 = popPuz1.get(selectedIndex2);
 
@@ -167,7 +179,29 @@ public class GeneticAlgorithm {
             //Fill in rest of population
             populateWithChildren(nextGenPop,allNums);
 
-            //
+            //Mutation?
+
+            //setting current pop
+            popPuz1 = nextGenPop;
+
+            //Showing improvement in fitness
+            System.out.println("This is the best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
         }
+    }
+
+    public static void main(String[]args) {
+        ArrayList<Float> numberList = new ArrayList<>();
+        Random random = new Random();
+        for(int i = 0; i < 40; i++) {
+            float num = -10 + (random.nextFloat() * (10 - (-10)));
+            numberList.add(num);;
+            //System.out.println("This is the number" + num + "and this is the count" + counter);
+        }
+
+        GeneticAlgorithm algo = new GeneticAlgorithm(numberList);
+        algo.runGeneticAlgorithm();
+
+//        algo.culling();
+//        algo.selection();
     }
 }

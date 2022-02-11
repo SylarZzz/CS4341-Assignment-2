@@ -51,7 +51,7 @@ public class PopulationPuzzle1 {
 
     int lowestFittestIndex() {
         int lowestFittestIndex = 0;
-        for(int i = 0; i < 20; i++) {
+        for(int i = 0; i < population.size(); i++) {
             float currentFit = population.get(i).getScore();
             float leastFit = population.get(lowestFittestIndex).getScore();
             if(currentFit < leastFit) {
