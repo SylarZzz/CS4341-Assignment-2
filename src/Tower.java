@@ -34,20 +34,22 @@ public class Tower {
         if (isValidDoorAndLook() && isValidWalls()) {
 
             for (int i = 0; i < tbs.size() - 1; i++) {
-                // check width
-                if (!(tbs.get(i).getWidth() >= tbs.get(i + 1).getWidth())) {
+                // check the current width is larger or equal to the width of the above block
+                if (tbs.get(i).getWidth() >= tbs.get(i + 1).getWidth()) {
+                    // check strength
+                    int curStrength = tbs.get(i).getStrength();
+                    int count = 0;
+                    for (int j = i + 1; j < tbs.size(); j++){
+                        count++;
+                    }
+                    // check if the strength of the current tower block is greater or equal to the count of the tower blocks above it
+                    if (curStrength >= count) {
+                        return true;
+                    }
+                } else {
                     return false;
                 }
-                // check strength
-                int curStrength = tbs.get(i).getStrength();
-                int count = 0;
-                for (int j = i + 1; j < tbs.size(); j++){
-                    count++;
-                }
-                // check if the strength of the current tower block is greater or equal to the count of the tower blocks above it
-                if (curStrength >= count) {
-                    return true;
-                }
+
             }
 
         }
