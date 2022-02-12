@@ -194,12 +194,20 @@ public class GeneticAlgorithm {
         Random random = new Random();
         for(int i = 0; i < 40; i++) {
             float num = -10 + (random.nextFloat() * (10 - (-10)));
-            numberList.add(num);;
+            numberList.add(num);
             //System.out.println("This is the number" + num + "and this is the count" + counter);
         }
 
+        // long timeInput = args[2];
+        long timeInput = 30000;
+
         GeneticAlgorithm algo = new GeneticAlgorithm(numberList);
-        algo.runGeneticAlgorithm();
+
+        long start = System.currentTimeMillis();
+        long end = start + timeInput;
+        while (System.currentTimeMillis() < end) {
+            algo.runGeneticAlgorithm();
+        }
 
 //        algo.culling();
 //        algo.selection();
