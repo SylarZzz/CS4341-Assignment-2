@@ -14,7 +14,7 @@ public class Tower {
 
     // Check if the bottom-most piece is a Door and the top piece is a lookout
     public boolean isValidDoorAndLook() {
-        return tbs.get(0).getType().equals("Door") && tbs.get(tbs.size()).getType().equals("Lookout");
+        return tbs.get(0).getType().equals("Door") && tbs.get(tbs.size() - 1).getType().equals("Lookout");
     }
 
     // Check if the pieces between the top and bottom are wall segments
