@@ -155,7 +155,8 @@ public class GeneticAlgorithm {
     }
 
     void runGeneticAlgorithm() {
-        while(genCount < 20) {  //Here we have some sort of value, or selecting what our minimum fitness level is
+        while(genCount < 200
+        ) {  //Here we have some sort of value, or selecting what our minimum fitness level is
             PopulationPuzzle1 nextGenPop = new PopulationPuzzle1();
             genCount++;
 
@@ -166,8 +167,7 @@ public class GeneticAlgorithm {
             fittest2 = popPuz1.get(popPuz1.getSecondFittestIndex());
             nextGenPop.add(fittest1);
             nextGenPop.add(fittest2);
-            System.out.println("Made it after eltiism");
-            //Remove the bottom 30% from the current pop before selection (Culling)
+            //Remove the bottom from the current pop before selection (Culling)
             culling();
 
             //Selection
@@ -229,7 +229,7 @@ public class GeneticAlgorithm {
         for(int i = 0; i < 40; i++) {
             float num = -10 + (random.nextFloat() * (10 - (-10)));
             numberList.add(num);;
-            System.out.println("This is the number" + num + "and this is the count");
+//            System.out.println("This is the number" + num + "and this is the count");
         }
 
         GeneticAlgorithm algo = new GeneticAlgorithm(numberList);
