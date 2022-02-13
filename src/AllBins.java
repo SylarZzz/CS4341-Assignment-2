@@ -30,6 +30,28 @@ public class AllBins {
         }
     }
 
+    ArrayList<Float> emptyAllBins() {
+        ArrayList<Float> allNums = new ArrayList<>();
+        for(int i = 0; i < 40; i++) {
+            if(i < 10) {
+                allNums.add(bin1.get(i));
+            } else if(i < 20) {
+                allNums.add(bin2.get(i-10));
+            } else if(i < 30) {
+                allNums.add(bin3.get(i-20));
+            } else if(i < 40) {
+                allNums.add(bin4.get(i-30));
+            }
+        }
+        for(int i = 9; i >= 0; i--) {
+            bin1.remove(i);
+            bin2.remove(i);
+            bin3.remove(i);
+            bin4.remove(i);
+        }
+        return allNums;
+    }
+
     float getScore() {
         float scoreBin1 = 0;
         float scoreBin2 = 0;

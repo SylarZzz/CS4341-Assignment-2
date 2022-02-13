@@ -21,4 +21,8 @@ public class Bin {
     float get(int index) {
         return inBin.get(index);
     }
+
+    void remove(int i) {
+        inBin.remove(i);
+    }
 }

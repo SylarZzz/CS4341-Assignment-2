@@ -31,9 +31,16 @@ public class GeneticAlgorithm {
 
     //Removing until no negative scores
     void culling() {
-        while(popPuz1.get(popPuz1.lowestFittestIndex()).getScore() < 0) {
-            int leastFitIndex = popPuz1.lowestFittestIndex();
-            popPuz1.remove(leastFitIndex);
+        if(popPuz1.get(popPuz1.getFittestIndex()).getScore() > 0) {
+            while (popPuz1.get(popPuz1.lowestFittestIndex()).getScore() < 0) {
+                int leastFitIndex = popPuz1.lowestFittestIndex();
+                popPuz1.remove(leastFitIndex);
+            }
+        } else {
+            for(int i = 0; i < 6; i++) {
+                int leastFitIndex = popPuz1.lowestFittestIndex();
+                popPuz1.remove(leastFitIndex);
+            }
         }
     }
 
@@ -159,34 +166,61 @@ public class GeneticAlgorithm {
             fittest2 = popPuz1.get(popPuz1.getSecondFittestIndex());
             nextGenPop.add(fittest1);
             nextGenPop.add(fittest2);
-
+            System.out.println("Made it after eltiism");
             //Remove the bottom 30% from the current pop before selection (Culling)
             culling();
 
             //Selection
-
-            ArrayList<Integer> values = selection();
-            int selectedIndex1 = values.get(0);
-            int selectedIndex2 = values.get(1);
+            while(nextGenPop.population.size() != 20) {
+                ArrayList<Integer> values = selection();
+                int selectedIndex1 = values.get(0);
+                int selectedIndex2 = values.get(1);
 //            System.out.println(selectedIndex1);
 //            System.out.println(selectedIndex2);
-            AllBins selected1 = popPuz1.get(selectedIndex1);
-            AllBins selected2 = popPuz1.get(selectedIndex2);
+                AllBins selected1 = popPuz1.get(selectedIndex1);
+                AllBins selected2 = popPuz1.get(selectedIndex2);
 
-            //Crossover
-            crossOver(selected1, selected2, nextGenPop);
-
-            //Fill in rest of population
-            populateWithChildren(nextGenPop,allNums);
-
-            //Mutation?
+                //Crossover
+                crossOver(selected1, selected2, nextGenPop);
+            }
 
             //setting current pop
             popPuz1 = nextGenPop;
 
+            //Mutation?
+            for(int i = 0; i < popPuz1.population.size(); i++) {
+                mutation(allNums, popPuz1.get(i));
+            }
+
             //Showing improvement in fitness
             System.out.println("This is the best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
         }
+    }
+
+    void mutation(ArrayList<Float> originalArray, AllBins bins) {
+        ArrayList<Float> newArray = bins.emptyAllBins();
+        ArrayList<Float> finalArray = new ArrayList<>();
+        ArrayList<Float> tempOriginalArray = new ArrayList<>();
+        ArrayList<Integer> toBeChanged = new ArrayList<>();
+        for(int i = 0; i < originalArray.size(); i++) {
+            tempOriginalArray.add(originalArray.get(i));
+        }
+        for(int i = 0; i < newArray.size(); i++) {
+            for(int j = 0; j < tempOriginalArray.size(); j++) {
+                if(newArray.get(i).equals(tempOriginalArray.get(j))) {
+                    tempOriginalArray.remove(j);
+                    finalArray.add(newArray.get(i));
+                    j--;
+                    break;
+                } else if(j == tempOriginalArray.size()-1) {
+                    toBeChanged.add(i);
+                }
+            }
+        }
+        for(int i = 0; i < toBeChanged.size(); i++) {
+            finalArray.add(toBeChanged.get(i),tempOriginalArray.get(i));
+        }
+        bins.fillAllBins(finalArray);
     }
 
     public static void main(String[]args) {
@@ -195,7 +229,7 @@ public class GeneticAlgorithm {
         for(int i = 0; i < 40; i++) {
             float num = -10 + (random.nextFloat() * (10 - (-10)));
             numberList.add(num);;
-            //System.out.println("This is the number" + num + "and this is the count" + counter);
+            System.out.println("This is the number" + num + "and this is the count");
         }
 
         GeneticAlgorithm algo = new GeneticAlgorithm(numberList);

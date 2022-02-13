@@ -1,3 +1,5 @@
+package src;
+
 public class TowerBlock {
 
     private String type; // door, wall, lookout
