@@ -94,4 +94,8 @@ public class Tower {
             score = 0;
         }
     }
+    
+    public void resetTower(ArrayList<TowerBlock> resettbs) {
+        this.tbs = resettbs;
+    }
 }
