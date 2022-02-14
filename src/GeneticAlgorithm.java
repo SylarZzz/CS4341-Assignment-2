@@ -353,6 +353,8 @@ public class GeneticAlgorithm {
     }
 
     public static void main(String[]args) throws FileNotFoundException {
+        
+        // current best arg input: 1 src/pieces.txt 1
 
         int puzNum = Integer.parseInt(args[0]);
         long timeInput = Long.parseLong(args[2]) * 1000;
@@ -374,10 +376,10 @@ public class GeneticAlgorithm {
 
             long start = System.currentTimeMillis();
             long end = start + timeInput;
-
+            
             GeneticAlgorithm algo = new GeneticAlgorithm(numberList, null);
             algo.runGeneticAlgorithm();
-
+            
             System.out.println("Times up!");
 //        algo.culling();
 //        algo.selection();
