@@ -1,12 +1,13 @@
 package src;
 
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PopulationPuzzle2 {
 
     ArrayList<Tower> population;
+
 
     public PopulationPuzzle2() {
         this.population = new ArrayList<>();
@@ -16,7 +17,7 @@ public class PopulationPuzzle2 {
 
         ArrayList<TowerBlock> temp = tbs;
 
-        for(int i = 0; i < 20; i++) {
+        for(int i = 0; i < 100; i++) {
             ArrayList<TowerBlock> blocks = new ArrayList<>();
             Collections.shuffle(temp);
             //System.out.println("temp: " + temp.toString());
@@ -27,14 +28,12 @@ public class PopulationPuzzle2 {
                 blocks.add(temp.get(j));
             }
             //System.out.println("block: " + blocks.toString());
-            if (!blocks.isEmpty()) {
+            if (!blocks.isEmpty() && blocks.get(0).getType().equals("Door") && blocks.get(blocks.size() - 1).getType().equals("Lookout")) {
                 Tower twr = new Tower(blocks);
                 //System.out.println(twr.toString());
                 population.add(twr);
             }
-            else {
-                i--;
-            }
+
         }
 
         //System.out.println("Population: " + population.toString());
@@ -43,7 +42,8 @@ public class PopulationPuzzle2 {
 
     int getFittestIndex() {
         int fittestIndex = 0;
-        for(int i = 0; i < 20; i++) {
+        for(int i = 0; i < population.size(); i++) {
+            System.out.println("Population i: " + population.get(i));
             int currentFitness = population.get(i).getScore();
             int mostFit = population.get(fittestIndex).getScore();
             if(mostFit < currentFitness) {
@@ -56,7 +56,7 @@ public class PopulationPuzzle2 {
     int getSecondFittestIndex() {
         int fittestIndex = getFittestIndex();
         int secondFittestIndex = 0;
-        for(int i = 0; i < 20; i++) {
+        for(int i = 0; i < population.size(); i++) {
             int currentFitness = population.get(i).getScore();
             int secondFittest = population.get(secondFittestIndex).getScore();
             if(currentFitness > secondFittest && i != fittestIndex) {
@@ -65,7 +65,7 @@ public class PopulationPuzzle2 {
         }
         return secondFittestIndex;
     }
-    
+
     int getMedianFittestIndex() {
         int medianFittestIndex = population.size() / 2;
         medianFittestIndex = medianFittestIndex > 0 && medianFittestIndex % 2 == 0 ? medianFittestIndex - 1 : medianFittestIndex;
@@ -85,9 +85,15 @@ public class PopulationPuzzle2 {
     }
 
     int totalScore() {
+        //System.out.println("Popoppo: " + population.toString());
+        //System.out.println("Popoppo 0 score: " + population.get(0).getScore());
         int totalScore = 0;
         for(int i = 0; i < population.size(); i++) {
-            totalScore = totalScore + population.get(i).getScore();
+            if(population.get(i).isValid()) {
+                System.out.println("get score: " + population.get(i).getScore());
+                totalScore = totalScore + population.get(i).getScore();
+                System.out.println("Total score: " + totalScore);
+            }
         }
         return totalScore;
     }
@@ -109,3 +115,5 @@ public class PopulationPuzzle2 {
         return probability;
     }
 }
+
+
