@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class PopulationPuzzle2 {
 
     ArrayList<Tower> population;
+    int sumscore = 0;
 
 
     public PopulationPuzzle2() {
@@ -87,15 +88,16 @@ public class PopulationPuzzle2 {
     int totalScore() {
         //System.out.println("Popoppo: " + population.toString());
         //System.out.println("Popoppo 0 score: " + population.get(0).getScore());
-        int totalScore = 0;
+        System.out.println("Hi");
         for(int i = 0; i < population.size(); i++) {
-            if(population.get(i).isValid()) {
+            //if(population.get(i).isValid()) {
                 System.out.println("get score: " + population.get(i).getScore());
-                totalScore = totalScore + population.get(i).getScore();
-                System.out.println("Total score: " + totalScore);
-            }
+
+                sumscore += population.get(i).getScore();
+                System.out.println("Total score: " + sumscore);
+            //}
         }
-        return totalScore;
+        return sumscore;
     }
 
     Tower get(int index) { return population.get(index); }
@@ -110,10 +112,10 @@ public class PopulationPuzzle2 {
 
     float getProbability(int index) {
         int indivScore = population.get(index).getScore();
-        int totalScore = totalScore();
-        float probability = indivScore/totalScore;
+        //int totalScore = totalScore();
+        System.out.println("Sum: " + sumscore);
+        float probability = indivScore/totalScore();
         return probability;
     }
 }
-
 
