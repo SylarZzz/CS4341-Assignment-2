@@ -288,8 +288,17 @@ public class GeneticAlgorithm {
             mutation(allNums, popPuz1.get(i));
         }
 
+//        //Showing improvement in fitness
+//        System.out.println("This is the best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
         //Showing improvement in fitness
-        System.out.println("This is the best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
+        if (genCount == 100 || genCount == 200){
+            System.out.println("This is the best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
+            System.out.println("This is the median fitness score for this generation is " + popPuz1.get(popPuz1.getMedianFittestIndex()).getScore());
+            System.out.println("This is the worst fitness score for this generatiopn: " + popPuz1.get(popPuz1.lowestFittestIndex()).getScore());
+        }
+        else if (genCount < 4) {
+//            System.out.println("First three best fitness score for this generation is " + popPuz1.get(popPuz1..getFittestIndex()).getScore());
+        }
     }
 
     void runGeneticAlgorithm2() {
@@ -347,24 +356,35 @@ public class GeneticAlgorithm {
         ArrayList<Float> newArray = bins.emptyAllBins();
         ArrayList<Float> finalArray = new ArrayList<>();
         ArrayList<Float> tempOriginalArray = new ArrayList<>();
-        ArrayList<Integer> toBeChanged = new ArrayList<>();
         for(int i = 0; i < originalArray.size(); i++) {
             tempOriginalArray.add(originalArray.get(i));
         }
+        ArrayList<Integer> toBeChanged = new ArrayList<>();
+        ArrayList<Float> numsChanging = new ArrayList<>();
         for(int i = 0; i < newArray.size(); i++) {
+            float ourVal = newArray.get(i);
+            int indexToChange = i;
             for(int j = 0; j < tempOriginalArray.size(); j++) {
-                if(newArray.get(i).equals(tempOriginalArray.get(j))) {
-                    tempOriginalArray.remove(j);
+                float tempVal = tempOriginalArray.get(j);
+                if(tempVal == ourVal) {
                     finalArray.add(newArray.get(i));
+                    tempOriginalArray.remove(j);
                     j--;
                     break;
-                } else if(j == tempOriginalArray.size()-1) {
-                    toBeChanged.add(i);
+                }
+                if(j == tempOriginalArray.size()-1 && tempVal != ourVal) {
+                    toBeChanged.add(indexToChange);
                 }
             }
         }
+        for(int i = 0; i < tempOriginalArray.size(); i++) {
+            if(tempOriginalArray.get(i) != null) {
+                numsChanging.add(tempOriginalArray.get(i));
+            }
+        }
+        System.out.println(toBeChanged.size());
         for(int i = 0; i < toBeChanged.size(); i++) {
-            finalArray.add(toBeChanged.get(i),tempOriginalArray.get(i));
+            System.out.println(numsChanging.get(i) + " " + toBeChanged.get(i));
         }
         bins.fillAllBins(finalArray);
     }
@@ -407,14 +427,13 @@ public class GeneticAlgorithm {
         System.out.println("How long would you like the program to run?");
         long time = scanner.nextLong();
 
+        scanner.close();
+
         ArrayList<TowerBlock> towerBlocks = new ArrayList<>();
         ArrayList<Float> numberList = new ArrayList<>();
-        Random random = new Random();
 
         File file = new File(filePath);
         Scanner sc = new Scanner(file);
-
-
 
         if (puzzleNumber == 1) {
             while(sc.hasNextLine()) {
@@ -424,6 +443,11 @@ public class GeneticAlgorithm {
 
             }
             sc.close();
+
+            while(sc.hasNextLine()) {
+                float num = sc.nextFloat();
+                numberList.add(num);
+            }
 
             GeneticAlgorithm algo = new GeneticAlgorithm(numberList, null);
 

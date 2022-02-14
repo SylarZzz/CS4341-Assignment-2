@@ -13,7 +13,10 @@ public class PopulationPuzzle1 {
     }
 
     void populate(ArrayList<Float> allNums) {
-        ArrayList<Float> temp = allNums;
+        ArrayList<Float> temp = new ArrayList<>();
+        for(int i = 0; i < allNums.size();i++) {
+            temp.add(allNums.get(i));
+        }
         //Populations size of 20 for now
         for(int i = 0; i < 20; i++) {
             Collections.shuffle(temp);

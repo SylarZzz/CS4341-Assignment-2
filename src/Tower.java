@@ -16,6 +16,10 @@ public class Tower {
         this.tbs = towerBlocks;
     }
 
+    public ArrayList<TowerBlock> getTowerBlocks() {
+        return this.tbs;
+    }
+
     // Check if the bottom-most piece is a Door and the top piece is a lookout
     public boolean isValidDoorAndLook() {
         return tbs.get(0).getType().equals("Door") && tbs.get(tbs.size() - 1).getType().equals("Lookout");
