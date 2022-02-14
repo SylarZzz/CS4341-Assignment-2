@@ -1,5 +1,4 @@
 package src;
-
 import java.util.ArrayList;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -47,6 +46,7 @@ public class PopulationPuzzle2 {
             System.out.println("Population i: " + population.get(i));
             int currentFitness = population.get(i).getScore();
             int mostFit = population.get(fittestIndex).getScore();
+            sumscore += population.get(i).getScore();
             if(mostFit < currentFitness) {
                 fittestIndex = i;
             }
@@ -114,8 +114,9 @@ public class PopulationPuzzle2 {
         int indivScore = population.get(index).getScore();
         //int totalScore = totalScore();
         System.out.println("Sum: " + sumscore);
-        float probability = indivScore/totalScore();
+        float probability = indivScore/sumscore;
         return probability;
     }
 }
+
 
