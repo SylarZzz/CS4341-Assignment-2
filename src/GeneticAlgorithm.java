@@ -220,7 +220,35 @@ public class GeneticAlgorithm {
 
     // TODO: crossover for puzz2
     void crossOver2(Tower fittestPuz2, Tower secFittestPuz2, PopulationPuzzle2 pop) {
+        ArrayList<TowerBlock> newtbs1 = new ArrayList<>();
+        ArrayList<TowerBlock> newtbs2 = new ArrayList<>();
 
+        TowerBlock door1 = fittestPuz2.getTowerBlocks().get(0);
+        TowerBlock door2 = secFittestPuz2.getTowerBlocks().get(0);
+
+        for (int i = 0; i < fittestPuz2.getTowerBlocks().size(); i++) {
+            if (i == 0) {
+                newtbs1.add(door1);
+            }
+            else {
+                newtbs1.add(fittestPuz2.getTowerBlocks().get(i));
+            }
+        }
+
+        for (int i = 0; i < secFittestPuz2.getTowerBlocks().size(); i++) {
+            if (i == 0) {
+                newtbs2.add(door2);
+            }
+            else {
+                newtbs2.add(secFittestPuz2.getTowerBlocks().get(i));
+            }
+        }
+
+        Tower child1 = new Tower(newtbs1);
+        Tower child2 = new Tower(newtbs2);
+
+        pop.add(child1);
+        pop.add(child2);
     }
 
     void runGeneticAlgorithm() {
@@ -278,11 +306,11 @@ public class GeneticAlgorithm {
             nextGenPop.add(fittest1);
             nextGenPop.add(fittest2);
             //Remove the bottom from the current pop before selection (Culling)
-            culling();
+            culling2();
 
             //Selection
             while(nextGenPop.population.size() != 20) {
-                ArrayList<Integer> values = selection();
+                ArrayList<Integer> values = selection2();
                 int selectedIndex1 = values.get(0);
                 int selectedIndex2 = values.get(1);
 //            System.out.println(selectedIndex1);
@@ -369,6 +397,7 @@ public class GeneticAlgorithm {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Which puzzle would you like to solve?");
@@ -378,11 +407,6 @@ public class GeneticAlgorithm {
         System.out.println("How long would you like the program to run?");
         long time = scanner.nextLong();
 
-        // current best arg input: 1 src/pieces.txt 1
-//
-//        int puzNum = Integer.parseInt(args[0]);
-//        long timeInput = Long.parseLong(args[2]) * 1000;
-
         ArrayList<TowerBlock> towerBlocks = new ArrayList<>();
         ArrayList<Float> numberList = new ArrayList<>();
         Random random = new Random();
@@ -390,20 +414,30 @@ public class GeneticAlgorithm {
         File file = new File(filePath);
         Scanner sc = new Scanner(file);
 
-        long start = System.currentTimeMillis();
-        long end = start + time;
+
 
         if (puzzleNumber == 1) {
+            while(sc.hasNextLine()) {
+                String line = sc.nextLine();
+                float num = Float.parseFloat(line);
+                numberList.add(num);
+
+            }
+            sc.close();
 
             GeneticAlgorithm algo = new GeneticAlgorithm(numberList, null);
 
+            long start = System.currentTimeMillis();
+            long end = start + time;
             while (System.currentTimeMillis() < end) {
                 algo.runGeneticAlgorithm();
             }
             System.out.println("Complete");
-        } else if (puzzleNumber == 2) {
+
+        }
+        else if (puzzleNumber == 2) {
             // read blocks in file and store to array list
-            while (sc.hasNextLine()) {
+            while(sc.hasNextLine()) {
                 String[] line = sc.nextLine().trim().split(", ");
                 for (int i = 0; i < line.length; i++) {
                     TowerBlock tb = new TowerBlock(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]), Integer.parseInt(line[3]));
@@ -413,6 +447,8 @@ public class GeneticAlgorithm {
             }
             sc.close();
             GeneticAlgorithm algo2 = new GeneticAlgorithm(null, towerBlocks);
+            long start = System.currentTimeMillis();
+            long end = start + time;
             while (System.currentTimeMillis() < end) {
                 algo2.runGeneticAlgorithm2();
             }
