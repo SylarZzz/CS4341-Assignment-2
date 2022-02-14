@@ -1,6 +1,7 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.*;
 
 public class PopulationPuzzle2 {
@@ -20,15 +21,23 @@ public class PopulationPuzzle2 {
             Collections.shuffle(temp);
             //System.out.println("temp: " + temp.toString());
             // inserting a random number of shuffled towerblocks into blocks
-            for (int j = 0; j < (rand.nextInt((tbs.size() - 1) + 1)); j++) {
+            for (int j = 0; j < (ThreadLocalRandom.current().nextInt(3, 5 + 1)); j++) {
                // System.out.println("Cur block: " + temp.get(j));
+
                 blocks.add(temp.get(j));
             }
             //System.out.println("block: " + blocks.toString());
-            Tower twr = new Tower(blocks);
-            System.out.println(twr.toString());
-            population.add(twr);
+            if (!blocks.isEmpty()) {
+                Tower twr = new Tower(blocks);
+                //System.out.println(twr.toString());
+                population.add(twr);
+            }
+            else {
+                i--;
+            }
         }
+
+        //System.out.println("Population: " + population.toString());
 
     }
 
