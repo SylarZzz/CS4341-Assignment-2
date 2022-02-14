@@ -29,8 +29,12 @@ public class GeneticAlgorithm {
 
     int genCount = 0;
 
+    void geneticAlgo() {
+
+    }
+
     int whichPuzzle() {
-        if (true) {  //some function here that tell whether the file is puzzle 1 or 2
+        if(true) {  //some function here that tell whether the file is puzzle 1 or 2
             return 1;
         } else {
             return 2;
@@ -39,13 +43,13 @@ public class GeneticAlgorithm {
 
     //Removing until no negative scores
     void culling() {
-        if (popPuz1.get(popPuz1.getFittestIndex()).getScore() > 0) {
+        if(popPuz1.get(popPuz1.getFittestIndex()).getScore() > 0) {
             while (popPuz1.get(popPuz1.lowestFittestIndex()).getScore() < 0) {
                 int leastFitIndex = popPuz1.lowestFittestIndex();
                 popPuz1.remove(leastFitIndex);
             }
         } else {
-            for (int i = 0; i < 6; i++) {
+            for(int i = 0; i < 6; i++) {
                 int leastFitIndex = popPuz1.lowestFittestIndex();
                 popPuz1.remove(leastFitIndex);
             }
@@ -54,13 +58,13 @@ public class GeneticAlgorithm {
 
     //Removing until no negative scores for puzz2
     void culling2() {
-        if (popPuz2.get(popPuz2.getFittestIndex()).getScore() > 0) {
+        if(popPuz2.get(popPuz2.getFittestIndex()).getScore() > 0) {
             while (popPuz2.get(popPuz2.lowestFittestIndex()).getScore() < 0) {
                 int leastFitIndex = popPuz2.lowestFittestIndex();
                 popPuz2.remove(leastFitIndex);
             }
         } else {
-            for (int i = 0; i < 6; i++) {
+            for(int i = 0; i < 6; i++) {
                 int leastFitIndex = popPuz2.lowestFittestIndex();
                 popPuz2.remove(leastFitIndex);
             }
@@ -74,7 +78,7 @@ public class GeneticAlgorithm {
         int index2 = -1;
         ArrayList<Float> probabilityList = new ArrayList<>();
         float totalProb = 0;
-        for (int i = 0; i < popPuz1.population.size(); i++) {
+        for(int i = 0; i < popPuz1.population.size(); i++) {
             float prob = popPuz1.getProbability(i);
             totalProb = totalProb + prob;
             probabilityList.add(totalProb);
@@ -83,27 +87,27 @@ public class GeneticAlgorithm {
         Random random = new Random();
         float random1 = random.nextFloat();
         float random2 = random.nextFloat();
-        for (int i = 0; i < probabilityList.size(); i++) {
-            if (i == 0) {
-                if (random1 > 0 && random1 < probabilityList.get(i)) {
+        for(int i = 0; i < probabilityList.size(); i++) {
+            if(i == 0) {
+                if(random1 > 0 && random1 < probabilityList.get(i)) {
                     index1 = i;
                 }
             } else {
-                if (random1 > probabilityList.get(i - 1) && random1 < probabilityList.get(i)) {
+                if(random1 > probabilityList.get(i-1) && random1 < probabilityList.get(i)) {
                     index1 = i;
                 }
             }
         }
         //In case both random floats are in the same range
-        while (index2 == -1) {
+        while(index2 == -1) {
             random2 = random.nextFloat(); //This will reselect random2
-            for (int i = 0; i < probabilityList.size(); i++) {
-                if (i == 0) {
-                    if (random2 > 0 && random2 < probabilityList.get(i) && index1 != i) {
+            for(int i = 0; i < probabilityList.size(); i++) {
+                if(i == 0) {
+                    if(random2 > 0 && random2 < probabilityList.get(i) && index1 != i) {
                         index2 = i;
                     }
                 } else {
-                    if (random2 > probabilityList.get(i - 1) && random2 < probabilityList.get(i) && index1 != i) {
+                    if(random2 > probabilityList.get(i-1) && random2 < probabilityList.get(i) && index1 !=i) {
                         index2 = i;
                     }
                 }
@@ -122,7 +126,7 @@ public class GeneticAlgorithm {
         int index2 = -1;
         ArrayList<Float> probabilityList = new ArrayList<>();
         float totalProb = 0;
-        for (int i = 0; i < popPuz2.population.size(); i++) {
+        for(int i = 0; i < popPuz2.population.size(); i++) {
             float prob = popPuz2.getProbability(i);
             totalProb = totalProb + prob;
             probabilityList.add(totalProb);
@@ -131,27 +135,27 @@ public class GeneticAlgorithm {
         Random random = new Random();
         float random1 = random.nextFloat();
         float random2 = random.nextFloat();
-        for (int i = 0; i < probabilityList.size(); i++) {
-            if (i == 0) {
-                if (random1 > 0 && random1 < probabilityList.get(i)) {
+        for(int i = 0; i < probabilityList.size(); i++) {
+            if(i == 0) {
+                if(random1 > 0 && random1 < probabilityList.get(i)) {
                     index1 = i;
                 }
             } else {
-                if (random1 > probabilityList.get(i - 1) && random1 < probabilityList.get(i)) {
+                if(random1 > probabilityList.get(i-1) && random1 < probabilityList.get(i)) {
                     index1 = i;
                 }
             }
         }
         //In case both random floats are in the same range
-        while (index2 == -1) {
+        while(index2 == -1) {
             random2 = random.nextFloat(); //This will reselect random2
-            for (int i = 0; i < probabilityList.size(); i++) {
-                if (i == 0) {
-                    if (random2 > 0 && random2 < probabilityList.get(i) && index1 != i) {
+            for(int i = 0; i < probabilityList.size(); i++) {
+                if(i == 0) {
+                    if(random2 > 0 && random2 < probabilityList.get(i) && index1 != i) {
                         index2 = i;
                     }
                 } else {
-                    if (random2 > probabilityList.get(i - 1) && random2 < probabilityList.get(i) && index1 != i) {
+                    if(random2 > probabilityList.get(i-1) && random2 < probabilityList.get(i) && index1 !=i) {
                         index2 = i;
                     }
                 }
@@ -166,9 +170,9 @@ public class GeneticAlgorithm {
     void crossOver(AllBins fittestPuz1, AllBins secFittestPuz1, PopulationPuzzle1 pop) {
         AllBins child1 = new AllBins();
         AllBins child2 = new AllBins();
-        for (int i = 0; i < 10; i++) {
+        for(int i = 0; i < 10; i++) {
             //This is the crossover point, which is halfway through
-            if (i < 5) {
+            if(i < 5) {
                 //Start of child 1 (comes from first parent)
                 float bin1ValC1 = fittestPuz1.bin1.get(i);
                 child1.bin1.add(bin1ValC1);
@@ -261,7 +265,7 @@ public class GeneticAlgorithm {
     }
 
     void runGeneticAlgorithm2() {
-        while (genCount < 200
+        while(genCount < 200
         ) {  //Here we have some sort of value, or selecting what our minimum fitness level is
             PopulationPuzzle2 nextGenPop = new PopulationPuzzle2();
             genCount++;
@@ -277,7 +281,7 @@ public class GeneticAlgorithm {
             culling();
 
             //Selection
-            while (nextGenPop.population.size() != 20) {
+            while(nextGenPop.population.size() != 20) {
                 ArrayList<Integer> values = selection();
                 int selectedIndex1 = values.get(0);
                 int selectedIndex2 = values.get(1);
@@ -294,12 +298,19 @@ public class GeneticAlgorithm {
             popPuz2 = nextGenPop;
 
             //Mutation?
-            for (int i = 0; i < popPuz2.population.size(); i++) {
+            for(int i = 0; i < popPuz2.population.size(); i++) {
                 mutation2(tbs, popPuz2.get(i));
             }
 
             //Showing improvement in fitness
-            System.out.println("This is the best fitness score for this generation is " + popPuz2.get(popPuz2.getFittestIndex()).getScore());
+            if (genCount == 100 || genCount == 200){
+                System.out.println("This is the best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
+                System.out.println("This is the median fitness score for this generation is " + popPuz1.get(popPuz1.getMedianFittestIndex()).getScore());
+                System.out.println("This is the worst fitness score for this generatiopn: " + popPuz1.get(popPuz1.lowestFittestIndex()).getScore());
+            }
+            else if (genCount < 4) {
+                System.out.println("First three best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
+            }
         }
     }
 
@@ -309,30 +320,52 @@ public class GeneticAlgorithm {
         ArrayList<Float> finalArray = new ArrayList<>();
         ArrayList<Float> tempOriginalArray = new ArrayList<>();
         ArrayList<Integer> toBeChanged = new ArrayList<>();
-        for (int i = 0; i < originalArray.size(); i++) {
+        for(int i = 0; i < originalArray.size(); i++) {
             tempOriginalArray.add(originalArray.get(i));
         }
-        for (int i = 0; i < newArray.size(); i++) {
-            for (int j = 0; j < tempOriginalArray.size(); j++) {
-                if (newArray.get(i).equals(tempOriginalArray.get(j))) {
+        for(int i = 0; i < newArray.size(); i++) {
+            for(int j = 0; j < tempOriginalArray.size(); j++) {
+                if(newArray.get(i).equals(tempOriginalArray.get(j))) {
                     tempOriginalArray.remove(j);
                     finalArray.add(newArray.get(i));
                     j--;
                     break;
-                } else if (j == tempOriginalArray.size() - 1) {
+                } else if(j == tempOriginalArray.size()-1) {
                     toBeChanged.add(i);
                 }
             }
         }
-        for (int i = 0; i < toBeChanged.size(); i++) {
-            finalArray.add(toBeChanged.get(i), tempOriginalArray.get(i));
+        for(int i = 0; i < toBeChanged.size(); i++) {
+            finalArray.add(toBeChanged.get(i),tempOriginalArray.get(i));
         }
         bins.fillAllBins(finalArray);
     }
 
     // TODO: mutation for puzz2
     void mutation2(ArrayList<TowerBlock> originalArray, Tower twr) {
-
+        ArrayList<TowerBlock> newArray = twr.getTowerBlocks();
+        ArrayList<TowerBlock> finalArray = new ArrayList<>();
+        ArrayList<TowerBlock> tempOriginalArray = new ArrayList<>();
+        ArrayList<Integer> toBeChanged = new ArrayList<>();
+        for(int i = 0; i < originalArray.size(); i++) {
+            tempOriginalArray.add(originalArray.get(i));
+        }
+        for(int i = 0; i < newArray.size(); i++) {
+            for(int j = 0; j < tempOriginalArray.size(); j++) {
+                if(newArray.get(i).equals(tempOriginalArray.get(j))) {
+                    tempOriginalArray.remove(j);
+                    finalArray.add(newArray.get(i));
+                    j--;
+                    break;
+                } else if(j == tempOriginalArray.size()-1) {
+                    toBeChanged.add(i);
+                }
+            }
+        }
+        for(int i = 0; i < toBeChanged.size(); i++) {
+            finalArray.add(toBeChanged.get(i),tempOriginalArray.get(i));
+        }
+        twr.resetTower(finalArray);
     }
 
     public static void main(String[] args) throws FileNotFoundException {

@@ -48,6 +48,12 @@ public class PopulationPuzzle1 {
         }
         return secondFittestIndex;
     }
+    
+    int getMedianFittestIndex() {
+        int medianFittestIndex = population.size() / 2;
+        medianFittestIndex = medianFittestIndex > 0 && medianFittestIndex % 2 == 0 ? medianFittestIndex - 1 : medianFittestIndex;
+        return medianFittestIndex;
+    }
 
     int lowestFittestIndex() {
         int lowestFittestIndex = 0;
