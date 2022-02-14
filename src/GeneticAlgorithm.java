@@ -273,7 +273,14 @@ public class GeneticAlgorithm {
             }
 
             //Showing improvement in fitness
-            System.out.println("This is the best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
+            if (genCount == 100 || genCount == 200){
+                System.out.println("This is the best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
+                System.out.println("This is the median fitness score for this generation is " + popPuz1.get(popPuz1.getMedianFittestIndex()).getScore());
+                System.out.println("This is the worst fitness score for this generatiopn: " + popPuz1.get(popPuz1.lowestFittestIndex()).getScore());
+            }
+            else if (genCount < 4) {
+                System.out.println("First three best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
+            }
         }
     }
 
@@ -316,7 +323,14 @@ public class GeneticAlgorithm {
             }
 
             //Showing improvement in fitness
-            System.out.println("This is the best fitness score for this generation is " + popPuz2.get(popPuz2.getFittestIndex()).getScore());
+            if (genCount == 100 || genCount == 200){
+                System.out.println("This is the best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
+                System.out.println("This is the median fitness score for this generation is " + popPuz1.get(popPuz1.getMedianFittestIndex()).getScore());
+                System.out.println("This is the worst fitness score for this generatiopn: " + popPuz1.get(popPuz1.lowestFittestIndex()).getScore());
+            }
+            else if (genCount < 4) {
+                System.out.println("First three best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
+            }
         }
     }
 
@@ -349,7 +363,29 @@ public class GeneticAlgorithm {
 
     // TODO: mutation for puzz2
     void mutation2(ArrayList<TowerBlock> originalArray, Tower twr) {
-
+        ArrayList<TowerBlock> newArray = twr.getTowerBlocks();
+        ArrayList<TowerBlock> finalArray = new ArrayList<>();
+        ArrayList<TowerBlock> tempOriginalArray = new ArrayList<>();
+        ArrayList<Integer> toBeChanged = new ArrayList<>();
+        for(int i = 0; i < originalArray.size(); i++) {
+            tempOriginalArray.add(originalArray.get(i));
+        }
+        for(int i = 0; i < newArray.size(); i++) {
+            for(int j = 0; j < tempOriginalArray.size(); j++) {
+                if(newArray.get(i).equals(tempOriginalArray.get(j))) {
+                    tempOriginalArray.remove(j);
+                    finalArray.add(newArray.get(i));
+                    j--;
+                    break;
+                } else if(j == tempOriginalArray.size()-1) {
+                    toBeChanged.add(i);
+                }
+            }
+        }
+        for(int i = 0; i < toBeChanged.size(); i++) {
+            finalArray.add(toBeChanged.get(i),tempOriginalArray.get(i));
+        }
+        twr.resetTower(finalArray);
     }
 
     public static void main(String[]args) throws FileNotFoundException {
