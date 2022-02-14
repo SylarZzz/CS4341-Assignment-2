@@ -395,7 +395,7 @@ public class GeneticAlgorithm {
             }
             sc.close();
             GeneticAlgorithm algo2 = new GeneticAlgorithm(null, towerBlocks);
-            algo2.runGeneticAlgorithm();
+            algo2.runGeneticAlgorithm2();
         }
 
     }
