@@ -12,15 +12,21 @@ public class PopulationPuzzle2 {
     }
 
     void populate(ArrayList<TowerBlock> tbs) {
+
         ArrayList<TowerBlock> temp = tbs;
-        ArrayList<TowerBlock> blocks = new ArrayList<>();
+
         for(int i = 0; i < 20; i++) {
+            ArrayList<TowerBlock> blocks = new ArrayList<>();
             Collections.shuffle(temp);
+            //System.out.println("temp: " + temp.toString());
             // inserting a random number of shuffled towerblocks into blocks
-            for (int j = 0; j < (int)Math.random() * tbs.size(); j++) {
+            for (int j = 0; j < (rand.nextInt((tbs.size() - 1) + 1)); j++) {
+               // System.out.println("Cur block: " + temp.get(j));
                 blocks.add(temp.get(j));
             }
+            //System.out.println("block: " + blocks.toString());
             Tower twr = new Tower(blocks);
+            System.out.println(twr.toString());
             population.add(twr);
         }
 
