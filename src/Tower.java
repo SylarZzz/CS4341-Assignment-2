@@ -2,6 +2,7 @@ package src;
 
 import src.TowerBlock;
 
+
 import java.util.ArrayList;
 import java.lang.Math;
 
@@ -74,6 +75,7 @@ public class Tower {
     }
 
     private void computeCost() {
+        cost = 0;
         for (int i = 0; i < tbs.size(); i++) {
             cost += tbs.get(i).getCost();
         }

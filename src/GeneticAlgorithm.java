@@ -124,39 +124,49 @@ public class GeneticAlgorithm {
         ArrayList<Integer> values = new ArrayList<>();
         int index1 = -1;
         int index2 = -1;
-        ArrayList<Float> probabilityList = new ArrayList<>();
-        float totalProb = 0;
+        ArrayList<Double> probabilityList = new ArrayList<>();
+        double totalProb = 0;
         for(int i = 0; i < popPuz2.population.size(); i++) {
-            float prob = popPuz2.getProbability(i);
+            double prob = popPuz2.getProbability(i);
+            System.out.println("prob is: " + prob);
             totalProb = totalProb + prob;
             probabilityList.add(totalProb);
             //System.out.println(totalProb);
         }
         Random random = new Random();
-        float random1 = random.nextFloat();
-        float random2 = random.nextFloat();
-        for(int i = 0; i < probabilityList.size(); i++) {
+        double random1 = random.nextDouble();
+        double random2 = random.nextDouble();
+        for(int i = 0; i < popPuz2.population.size(); i++) {
             if(i == 0) {
-                if(random1 > 0 && random1 < probabilityList.get(i)) {
+                System.out.println("Random1 is: " + random1);
+                System.out.println("Probability at i is: " + popPuz2.getProbability(i));
+                System.out.println("Probability is greater than random: " + (random1 < popPuz2.getProbability(i)));
+                if(random1 > 0 && random1 < popPuz2.getProbability(i)) {
                     index1 = i;
+                    System.out.println("Index1 is now: " + index1);
                 }
             } else {
-                if(random1 > probabilityList.get(i-1) && random1 < probabilityList.get(i)) {
+                System.out.println("Random1 is: " + random1);
+                System.out.println("Probability at i not equal 0 is: " + popPuz2.getProbability(i));
+                if(random1 > popPuz2.getProbability(i-1) && random1 < popPuz2.getProbability(i)) {
                     index1 = i;
+                    System.out.println("Index1 is now: " + index1);
                 }
             }
         }
         //In case both random floats are in the same range
         while(index2 == -1) {
-            random2 = random.nextFloat(); //This will reselect random2
+            random2 = random.nextDouble(); //This will reselect random2
             for(int i = 0; i < probabilityList.size(); i++) {
                 if(i == 0) {
-                    if(random2 > 0 && random2 < probabilityList.get(i) && index1 != i) {
+                    if(random2 > 0 && random2 < popPuz2.getProbability(i) && index1 != i) {
                         index2 = i;
+                        System.out.println("Index2 is now: " + index2);
                     }
                 } else {
-                    if(random2 > probabilityList.get(i-1) && random2 < probabilityList.get(i) && index1 !=i) {
+                    if(random2 > popPuz2.getProbability(i-1) && random2 < popPuz2.getProbability(i) && index1 !=i) {
                         index2 = i;
+                        System.out.println("Index2 is now: " + index2);
                     }
                 }
             }

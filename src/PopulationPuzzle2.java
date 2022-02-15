@@ -1,4 +1,5 @@
 package src;
+
 import java.util.ArrayList;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -110,11 +111,12 @@ public class PopulationPuzzle2 {
         population.remove(index);
     }
 
-    float getProbability(int index) {
+    double getProbability(int index) {
         int indivScore = population.get(index).getScore();
+        System.out.println("My indiv score is: " + indivScore);
         //int totalScore = totalScore();
         System.out.println("Sum: " + sumscore);
-        float probability = indivScore/sumscore;
+        double probability = (double) indivScore/sumscore;
         return probability;
     }
 }
