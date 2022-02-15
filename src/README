@@ -1,0 +1,13 @@
+How to run: 
+  - From terminal
+       + javac GeneticAlgorithm.java
+       + java GeneticAlgorithm
+       + Enter 1 for puzzle 1, 2 for puzzle 2
+       + Enter “src/numbers.txt” for puzzle 1 input file, "src/pieces.txt" for puzzle 2 input file
+       + Enter number of seconds
+  
+  - From IDE
+      After run,
+      + Enter 1 for puzzle 1, 2 for puzzle 2
+      + Enter “src/numbers.txt” for puzzle 1 input file, "src/pieces.txt" for puzzle 2 input file
+      + Enter number of seconds
