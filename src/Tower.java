@@ -94,7 +94,7 @@ public class Tower {
 
     private void computeScore() {
         if (isValid()) {
-            System.out.println("My height is: " + getHeight() + ", and my cost is: " + getCost());
+            //System.out.println("My height is: " + getHeight() + ", and my cost is: " + getCost());
             score = 10 + (int)Math.pow(getHeight(), 2) - getCost();
         } else {
             score = 0;
