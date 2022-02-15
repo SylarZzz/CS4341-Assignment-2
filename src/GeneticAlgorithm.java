@@ -122,8 +122,8 @@ public class GeneticAlgorithm {
     //Selection for puzz2
     ArrayList<Integer> selection2() {
         ArrayList<Integer> values = new ArrayList<>();
-        int index1 = -1;
-        int index2 = -1;
+        int index1 = 0;
+        int index2 = 0;
         ArrayList<Double> probabilityList = new ArrayList<>();
         double totalProb = 0;
         for(int i = 0; i < popPuz2.population.size(); i++) {
@@ -131,46 +131,51 @@ public class GeneticAlgorithm {
             System.out.println("prob is: " + prob);
             totalProb = totalProb + prob;
             probabilityList.add(totalProb);
-            //System.out.println(totalProb);
+            System.out.println("line 134");
         }
         Random random = new Random();
         double random1 = random.nextDouble();
         double random2 = random.nextDouble();
-        for(int i = 0; i < popPuz2.population.size(); i++) {
-            if(i == 0) {
-                System.out.println("Random1 is: " + random1);
-                System.out.println("Probability at i is: " + popPuz2.getProbability(i));
-                System.out.println("Probability is greater than random: " + (random1 < popPuz2.getProbability(i)));
-                if(random1 > 0 && random1 < popPuz2.getProbability(i)) {
-                    index1 = i;
-                    System.out.println("Index1 is now: " + index1);
-                }
-            } else {
-                System.out.println("Random1 is: " + random1);
-                System.out.println("Probability at i not equal 0 is: " + popPuz2.getProbability(i));
-                if(random1 > popPuz2.getProbability(i-1) && random1 < popPuz2.getProbability(i)) {
-                    index1 = i;
-                    System.out.println("Index1 is now: " + index1);
-                }
+        for(int i = 0; i < probabilityList.size(); i++) {
+            if(random1 < popPuz2.getProbability(i)) {
+                System.out.println("line 141");
+                index1 = i;
             }
+//            if(i == 0) {
+//                System.out.println("Random1 is: " + random1);
+//                System.out.println("Probability at i is: " + popPuz2.getProbability(i));
+//                System.out.println("Probability is greater than random: " + (random1 < popPuz2.getProbability(i)));
+//                if(random1 > 0 && random1 < popPuz2.getProbability(i)) {
+//                    index1 = i;
+//                    System.out.println("Index1 is now: " + index1);
+//                }
+//            } else {
+//                System.out.println("Random1 is: " + random1);
+//                System.out.println("Probability at i not equal 0 is: " + popPuz2.getProbability(i));
+//                if(random1 > popPuz2.getProbability(i-1) && random1 < popPuz2.getProbability(i)) {
+//                    index1 = i;
+//                    System.out.println("Index1 is now: " + index1);
+//                }
+//            }
+
         }
         //In case both random floats are in the same range
-        while(index2 == -1) {
-            random2 = random.nextDouble(); //This will reselect random2
+//        while(index2 == -1) {
+//            random2 = random.nextDouble(); //This will reselect random2
             for(int i = 0; i < probabilityList.size(); i++) {
-                if(i == 0) {
-                    if(random2 > 0 && random2 < popPuz2.getProbability(i) && index1 != i) {
+//                if(i == 0) {
+//                    if(random2 > 0 && random2 < popPuz2.getProbability(i) && index1 != i) {
+//                        index2 = i;
+//                        System.out.println("Index2 is now: " + index2);
+//                    }
+//                } else {
+                    if(random2 < popPuz2.getProbability(i) && index1 !=i) {
                         index2 = i;
                         System.out.println("Index2 is now: " + index2);
                     }
-                } else {
-                    if(random2 > popPuz2.getProbability(i-1) && random2 < popPuz2.getProbability(i) && index1 !=i) {
-                        index2 = i;
-                        System.out.println("Index2 is now: " + index2);
-                    }
-                }
+                //}
             }
-        }
+        //}
         values.add(index1);
         values.add(index2);
         return values;
@@ -351,12 +356,12 @@ public class GeneticAlgorithm {
 
             //Showing improvement in fitness
             if (genCount == 100 || genCount == 200){
-                System.out.println("This is the best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
-                System.out.println("This is the median fitness score for this generation is " + popPuz1.get(popPuz1.getMedianFittestIndex()).getScore());
-                System.out.println("This is the worst fitness score for this generatiopn: " + popPuz1.get(popPuz1.lowestFittestIndex()).getScore());
+                System.out.println("This is the best fitness score for this generation is " + popPuz2.get(popPuz2.getFittestIndex()).getScore());
+                System.out.println("This is the median fitness score for this generation is " + popPuz2.get(popPuz2.getMedianFittestIndex()).getScore());
+                System.out.println("This is the worst fitness score for this generation: " + popPuz2.get(popPuz2.lowestFittestIndex()).getScore());
             }
             else if (genCount < 4) {
-                System.out.println("First three best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
+                System.out.println("First three best fitness score for this generation is " + popPuz2.get(popPuz2.getFittestIndex()).getScore());
             }
         }
     }

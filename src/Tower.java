@@ -2,7 +2,6 @@ package src;
 
 import src.TowerBlock;
 
-
 import java.util.ArrayList;
 import java.lang.Math;
 
@@ -104,4 +103,5 @@ public class Tower {
     public void resetTower(ArrayList<TowerBlock> resettbs) {
         this.tbs = resettbs;
     }
+
 }
