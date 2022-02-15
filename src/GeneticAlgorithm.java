@@ -131,7 +131,6 @@ public class GeneticAlgorithm {
     }
 
 
-    //Selection for puzz2
     ArrayList<Integer> selection2() {
         ArrayList<Integer> values = new ArrayList<>();
         int index1 = -1;
@@ -147,20 +146,19 @@ public class GeneticAlgorithm {
             System.out.println("Prob: " + prob);
             totalProb = totalProb + prob;
             probabilityList.add(totalProb);
-            System.out.println("Why are you stuck?");
+            // System.out.println("Why are you stuck?");
         }
         Random random = new Random();
-        float random1 = random.nextFloat();
-        float random2 = random.nextFloat();
+        float random1 = random.nextFloat() * (float) 0.1;
+        float random2 = random.nextFloat() * (float) 0.1;
+        System.out.println("Prob List: " + probabilityList.toString());
+        System.out.println("Random1: " + random1);
+        System.out.println("Random2: " + random2);
         for(int i = 0; i < probabilityList.size(); i++) {
-            if(i == 0) {
-                if(random1 > 0 && random1 < probabilityList.get(i)) {
-                    index1 = i;
-                }
-            } else {
-                if(random1 > probabilityList.get(i-1) && random1 < probabilityList.get(i)) {
-                    index1 = i;
-                }
+
+
+            if(random1 < probabilityList.get(i)) {
+                index1 = i;
             }
         }
 
@@ -168,27 +166,29 @@ public class GeneticAlgorithm {
         System.out.println("Index1: " + index1 + ", Index2: " + index2);
         //In case both random floats are in the same range
 
-        while(index2 == -1) {
-            random2 = random.nextFloat(); //This will reselect random2
+        //while(index2 == -1) {
+            //random2 = random.nextFloat(); //This will reselect random2
             for(int i = 0; i < probabilityList.size(); i++) {
-                if(i == 0) {
-                    if(random2 > 0 && random2 < probabilityList.get(i) && index1 != i) {
+                //if(i == 0) {
+                  //  if(random2 > 0 && random2 < probabilityList.get(i) && index1 != i) {
+                    //    index2 = i;
+                   // }
+                //} else {
+                    if(random2 < probabilityList.get(i) && index1 !=i) {
                         index2 = i;
-                    }
-                } else {
-                    if(random2 > probabilityList.get(i-1) && random2 < probabilityList.get(i) && index1 !=i) {
-                        index2 = i;
-                    }
+                  //  }
                 }
             }
-        }
+        //}
+
+        System.out.println("Index1: " + index1 + ", Index2: " + index2);
 
         values.add(index1);
         values.add(index2);
-        System.out.println("Why are you stuck?");
+        //System.out.println("Why are you stuck?");
         return values;
     }
-
+    
     //Doing crossover between the two selected Individuals
     void crossOver(AllBins fittestPuz1, AllBins secFittestPuz1, PopulationPuzzle1 pop) {
         AllBins child1 = new AllBins();
