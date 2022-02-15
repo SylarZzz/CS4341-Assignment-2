@@ -1,5 +1,7 @@
 package src;
 
+import org.junit.Test;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -472,6 +474,8 @@ public class GeneticAlgorithm {
             System.out.println("Complete");
         }
 
+
     }
+
 }
 
