@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class PopulationPuzzle2 {
 
     ArrayList<Tower> population;
-    int sumscore = 0;
+    int sumscore;
 
 
     public PopulationPuzzle2() {
@@ -32,6 +32,9 @@ public class PopulationPuzzle2 {
                 //System.out.println(twr.toString());
                 population.add(twr);
             }
+            else {
+                i--;
+            }
 
         }
 
@@ -41,6 +44,7 @@ public class PopulationPuzzle2 {
 
     int getFittestIndex() {
         int fittestIndex = 0;
+        System.out.println("Pop size at fittest: " + population.size());
         for(int i = 0; i < population.size(); i++) {
             System.out.println("Population i: " + population.get(i));
             int currentFitness = population.get(i).getScore();
@@ -56,6 +60,7 @@ public class PopulationPuzzle2 {
     int getSecondFittestIndex() {
         int fittestIndex = getFittestIndex();
         int secondFittestIndex = 0;
+        System.out.println("Pop size at secondfittest: " + population.size());
         for(int i = 0; i < population.size(); i++) {
             int currentFitness = population.get(i).getScore();
             int secondFittest = population.get(secondFittestIndex).getScore();
@@ -84,10 +89,25 @@ public class PopulationPuzzle2 {
         return lowestFittestIndex;
     }
 
-    int totalScore() {
-        System.out.println("Popoppo: " + population.toString());
-        System.out.println("Popoppo 0 score: " + population.get(0).getScore());
+    ArrayList<Integer> getInvalidTowerIndex() {
+        ArrayList<Integer> index = new ArrayList<>();
+        for (int i = 0; i < population.size(); i++) {
+            if (!population.get(i).isValid()) {
+                index.add(i);
+            }
+        }
+        return index;
+    }
+
+    void totalScore() {
+        //System.out.println("Popoppo: " + population.toString());
+        //System.out.println("Popoppo 0 score: " + population.get(0).getScore());
         System.out.println("Hi");
+
+        for (int i = 0; i < population.size(); i++) {
+            System.out.println("Population i in totalScore: " + population.get(i).toString());
+        }
+
         for(int i = 0; i < population.size(); i++) {
             //if(population.get(i).isValid()) {
                 System.out.println("get score: " + population.get(i).getScore());
@@ -96,7 +116,21 @@ public class PopulationPuzzle2 {
                 System.out.println("Total score: " + sumscore);
             //}
         }
-        return sumscore;
+
+    }
+
+    void setTotalScore() {
+        System.out.println("Pop size: " + population.size());
+        for (int i = 0; i < population.size(); i++) {
+            System.out.println("Cur score: " + population.get(i).getScore());
+            sumscore += Math.abs(population.get(i).getScore());
+            System.out.println("Cur sum: " + sumscore);
+        }
+    }
+
+    int getTotalScore() {
+        setTotalScore();
+        return Math.abs(sumscore);
     }
 
     Tower get(int index) { return population.get(index); }
@@ -109,11 +143,13 @@ public class PopulationPuzzle2 {
         population.remove(index);
     }
 
-    float getProbability(int index) {
-        int indivScore = population.get(index).getScore();
+    float getProbability(int index, int sum) {
+        //totalScore();
+        int indivScore = Math.abs(population.get(index).getScore());
         //int totalScore = totalScore();
-        System.out.println("Sum: " + sumscore);
-        float probability = indivScore/totalScore();
+        System.out.println("Sum: " + sum);
+        float probability = indivScore/sum;
         return probability;
     }
+
 }
