@@ -51,12 +51,13 @@ public class GeneticAlgorithm {
                 int leastFitIndex = popPuz2.lowestFittestIndex();
                 popPuz2.remove(leastFitIndex);
             }
-        } else {
-            for(int i = 0; i < 6; i++) {
-                int leastFitIndex = popPuz2.lowestFittestIndex();
-                popPuz2.remove(leastFitIndex);
-            }
         }
+//        else {
+//            for(int i = 0; i < 6; i++) {
+//                int leastFitIndex = popPuz2.lowestFittestIndex();
+//                popPuz2.remove(leastFitIndex);
+//            }
+//        }
     }
 
     //Selection
@@ -445,12 +446,13 @@ public class GeneticAlgorithm {
                 numberList.add(num);
 
             }
-            sc.close();
 
             while(sc.hasNextLine()) {
                 float num = sc.nextFloat();
                 numberList.add(num);
             }
+
+            sc.close();
 
             GeneticAlgorithm algo = new GeneticAlgorithm(numberList, null);
 

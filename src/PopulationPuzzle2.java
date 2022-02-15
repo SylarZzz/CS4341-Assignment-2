@@ -28,7 +28,7 @@ public class PopulationPuzzle2 {
                 blocks.add(temp.get(j));
             }
             //System.out.println("block: " + blocks.toString());
-            if (!blocks.isEmpty() && blocks.get(0).getType().equals("Door") && blocks.get(blocks.size() - 1).getType().equals("Lookout")) {
+            if (!blocks.isEmpty() && blocks.get(0).getType().equals("Door") && blocks.get(blocks.size() - 1).getType().equals("Lookout") && hasValidWalls(blocks)) {
                 Tower twr = new Tower(blocks);
                 //System.out.println(twr.toString());
                 population.add(twr);
@@ -37,6 +37,18 @@ public class PopulationPuzzle2 {
 
         //System.out.println("Population: " + population.toString());
 
+    }
+
+    // Check if the pieces between the top and bottom are wall segments
+    public boolean hasValidWalls(ArrayList<TowerBlock> blocks) {
+        int count = blocks.size() - 2; // how many walls there should be: TowerBlocks.size() - 2 walls.
+        int n = 0; // number of walls in the current tower
+        for (int i = 1; i < blocks.size() - 1; i++) {  // at this point it assumes the last block and the first block are lookout and door.
+            if (blocks.get(i).getType().equals("Wall")) {
+                n++;
+            }
+        }
+        return n == count;
     }
 
     int getFittestIndex() {
