@@ -43,7 +43,7 @@ public class GeneticAlgorithm {
 
     //Removing until no negative scores
     void culling() {
-        if(popPuz1.get(popPuz1.getFittestIndex()).getScore() > 0) {
+        if(popPuz1.get(popPuz1.getFittestIndex()).getScore() < 0) {
             while (popPuz1.get(popPuz1.lowestFittestIndex()).getScore() < 0) {
                 int leastFitIndex = popPuz1.lowestFittestIndex();
                 popPuz1.remove(leastFitIndex);
@@ -82,11 +82,10 @@ public class GeneticAlgorithm {
             float prob = popPuz1.getProbability(i);
             totalProb = totalProb + prob;
             probabilityList.add(totalProb);
-            //System.out.println(totalProb);
+//            System.out.println(totalProb);
         }
         Random random = new Random();
         float random1 = random.nextFloat();
-        float random2 = random.nextFloat();
         for(int i = 0; i < probabilityList.size(); i++) {
             if(i == 0) {
                 if(random1 > 0 && random1 < probabilityList.get(i)) {
@@ -100,7 +99,7 @@ public class GeneticAlgorithm {
         }
         //In case both random floats are in the same range
         while(index2 == -1) {
-            random2 = random.nextFloat(); //This will reselect random2
+            float random2 = random.nextFloat();
             for(int i = 0; i < probabilityList.size(); i++) {
                 if(i == 0) {
                     if(random2 > 0 && random2 < probabilityList.get(i) && index1 != i) {
@@ -170,6 +169,8 @@ public class GeneticAlgorithm {
     void crossOver(AllBins fittestPuz1, AllBins secFittestPuz1, PopulationPuzzle1 pop) {
         AllBins child1 = new AllBins();
         AllBins child2 = new AllBins();
+//        System.out.println(fittestPuz1.bin1.inBin);
+//        System.out.println(secFittestPuz1.bin1.inBin);
         for(int i = 0; i < 10; i++) {
             //This is the crossover point, which is halfway through
             if(i < 5) {
@@ -216,6 +217,9 @@ public class GeneticAlgorithm {
         }
         pop.add(child1);
         pop.add(child2);
+
+//        System.out.println(child1.bin1.inBin);
+//        System.out.println(child2.bin1.inBin);
     }
 
     // TODO: crossover for puzz2
@@ -252,6 +256,9 @@ public class GeneticAlgorithm {
     }
 
     void runGeneticAlgorithm() {
+        System.out.println("This is the best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
+        System.out.println("This is the median fitness score for this generation is " + popPuz1.get(popPuz1.getMedianFittestIndex()).getScore());
+        System.out.println("This is the worst fitness score for this generation: " + popPuz1.get(popPuz1.lowestFittestIndex()).getScore());
         //Here we have some sort of value, or selecting what our minimum fitness level is
         PopulationPuzzle1 nextGenPop = new PopulationPuzzle1();
         genCount++;
@@ -263,7 +270,7 @@ public class GeneticAlgorithm {
         fittest2 = popPuz1.get(popPuz1.getSecondFittestIndex());
         nextGenPop.add(fittest1);
         nextGenPop.add(fittest2);
-        //Remove the bottom from the current pop before selection (Culling)
+        //Remove the bottom from the current 52pop before selection (Culling)
         culling();
 
         //Selection
@@ -271,8 +278,6 @@ public class GeneticAlgorithm {
             ArrayList<Integer> values = selection();
             int selectedIndex1 = values.get(0);
             int selectedIndex2 = values.get(1);
-//            System.out.println(selectedIndex1);
-//            System.out.println(selectedIndex2);
             AllBins selected1 = popPuz1.get(selectedIndex1);
             AllBins selected2 = popPuz1.get(selectedIndex2);
 
@@ -291,14 +296,7 @@ public class GeneticAlgorithm {
 //        //Showing improvement in fitness
 //        System.out.println("This is the best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
         //Showing improvement in fitness
-        if (genCount == 100 || genCount == 200){
-            System.out.println("This is the best fitness score for this generation is " + popPuz1.get(popPuz1.getFittestIndex()).getScore());
-            System.out.println("This is the median fitness score for this generation is " + popPuz1.get(popPuz1.getMedianFittestIndex()).getScore());
-            System.out.println("This is the worst fitness score for this generatiopn: " + popPuz1.get(popPuz1.lowestFittestIndex()).getScore());
-        }
-        else if (genCount < 4) {
-//            System.out.println("First three best fitness score for this generation is " + popPuz1.get(popPuz1..getFittestIndex()).getScore());
-        }
+            System.out.println("This is the current generation " + genCount);
     }
 
     void runGeneticAlgorithm2() {
@@ -356,35 +354,13 @@ public class GeneticAlgorithm {
         ArrayList<Float> newArray = bins.emptyAllBins();
         ArrayList<Float> finalArray = new ArrayList<>();
         ArrayList<Float> tempOriginalArray = new ArrayList<>();
-        for(int i = 0; i < originalArray.size(); i++) {
-            tempOriginalArray.add(originalArray.get(i));
-        }
-        ArrayList<Integer> toBeChanged = new ArrayList<>();
-        ArrayList<Float> numsChanging = new ArrayList<>();
+        tempOriginalArray.addAll(originalArray);
         for(int i = 0; i < newArray.size(); i++) {
-            float ourVal = newArray.get(i);
-            int indexToChange = i;
-            for(int j = 0; j < tempOriginalArray.size(); j++) {
-                float tempVal = tempOriginalArray.get(j);
-                if(tempVal == ourVal) {
-                    finalArray.add(newArray.get(i));
-                    tempOriginalArray.remove(j);
-                    j--;
-                    break;
-                }
-                if(j == tempOriginalArray.size()-1 && tempVal != ourVal) {
-                    toBeChanged.add(indexToChange);
-                }
+            if(tempOriginalArray.contains(newArray.get(i))) {
+                finalArray.add(newArray.get(i));
+            } else {
+                finalArray.add(tempOriginalArray.get(i));
             }
-        }
-        for(int i = 0; i < tempOriginalArray.size(); i++) {
-            if(tempOriginalArray.get(i) != null) {
-                numsChanging.add(tempOriginalArray.get(i));
-            }
-        }
-        System.out.println(toBeChanged.size());
-        for(int i = 0; i < toBeChanged.size(); i++) {
-            System.out.println(numsChanging.get(i) + " " + toBeChanged.get(i));
         }
         bins.fillAllBins(finalArray);
     }
@@ -442,20 +418,37 @@ public class GeneticAlgorithm {
                 numberList.add(num);
 
             }
-            sc.close();
 
             while(sc.hasNextLine()) {
                 float num = sc.nextFloat();
                 numberList.add(num);
             }
-
+            sc.close();
             GeneticAlgorithm algo = new GeneticAlgorithm(numberList, null);
 
             long start = System.currentTimeMillis();
             long end = start + time;
+            float bestFitnessScore = 0;
+            AllBins bestBin = new AllBins();
+            int generations = 0;
+            int bestSolutionGen = 0;
             while (System.currentTimeMillis() < end) {
+                if(algo.popPuz1.get(algo.popPuz1.getFittestIndex()).getScore() > bestFitnessScore) {
+                    bestFitnessScore = algo.popPuz1.get(algo.popPuz1.getFittestIndex()).getScore();
+                    bestBin = algo.popPuz1.get(algo.popPuz1.getFittestIndex());
+                    bestSolutionGen = generations;
+                }
                 algo.runGeneticAlgorithm();
+                generations++;
             }
+            System.out.println("The best solution for this puzzle was:");
+            System.out.println("Bin 1: " + bestBin.bin1.inBin);
+            System.out.println("Bin 2: " + bestBin.bin2.inBin);
+            System.out.println("Bin 3: " + bestBin.bin3.inBin);
+            System.out.println("Bin 4: " + bestBin.bin4.inBin);
+            System.out.println("With a score of: " + bestFitnessScore);
+            System.out.println("It took " + bestSolutionGen + " generation to find this solution");
+            System.out.println("The program ran for a total of " + generations + " generations");
             System.out.println("Complete");
 
         }
