@@ -122,7 +122,7 @@ public class PopulationPuzzle2 {
     void setTotalScore() {
         System.out.println("Pop size: " + population.size());
         for (int i = 0; i < population.size(); i++) {
-            System.out.println("Cur score: " + population.get(i).getScore());
+            System.out.println("Cur score: " + Math.abs(population.get(i).getScore()));
             sumscore += Math.abs(population.get(i).getScore());
             System.out.println("Cur sum: " + sumscore);
         }
