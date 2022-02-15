@@ -29,18 +29,6 @@ public class GeneticAlgorithm {
 
     int genCount = 0;
 
-    void geneticAlgo() {
-
-    }
-
-    int whichPuzzle() {
-        if(true) {  //some function here that tell whether the file is puzzle 1 or 2
-            return 1;
-        } else {
-            return 2;
-        }
-    }
-
     //Removing until no negative scores
     void culling() {
         if(popPuz1.get(popPuz1.getFittestIndex()).getScore() > 0) {
@@ -128,10 +116,9 @@ public class GeneticAlgorithm {
         double totalProb = 0;
         for(int i = 0; i < popPuz2.population.size(); i++) {
             double prob = popPuz2.getProbability(i);
-            System.out.println("prob is: " + prob);
+            //System.out.println("prob is: " + prob);
             totalProb = totalProb + prob;
             probabilityList.add(totalProb);
-            System.out.println("line 134");
         }
         Random random = new Random();
         double random1 = random.nextDouble();
@@ -161,7 +148,7 @@ public class GeneticAlgorithm {
         }
         //In case both random floats are in the same range
 //        while(index2 == -1) {
-//            random2 = random.nextDouble(); //This will reselect random2
+            random2 = random.nextDouble(); //This will reselect random2
             for(int i = 0; i < probabilityList.size(); i++) {
 //                if(i == 0) {
 //                    if(random2 > 0 && random2 < popPuz2.getProbability(i) && index1 != i) {
@@ -356,6 +343,7 @@ public class GeneticAlgorithm {
 
             //Showing improvement in fitness
             if (genCount == 100 || genCount == 200){
+                System.out.println("The population size is: " + popPuz2.population.size());
                 System.out.println("This is the best fitness score for this generation is " + popPuz2.get(popPuz2.getFittestIndex()).getScore());
                 System.out.println("This is the median fitness score for this generation is " + popPuz2.get(popPuz2.getMedianFittestIndex()).getScore());
                 System.out.println("This is the worst fitness score for this generation: " + popPuz2.get(popPuz2.lowestFittestIndex()).getScore());

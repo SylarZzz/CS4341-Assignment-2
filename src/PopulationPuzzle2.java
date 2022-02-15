@@ -25,7 +25,6 @@ public class PopulationPuzzle2 {
             // inserting a random number of shuffled towerblocks into blocks
             for (int j = 0; j < (ThreadLocalRandom.current().nextInt(3, 5 + 1)); j++) {
                // System.out.println("Cur block: " + temp.get(j));
-
                 blocks.add(temp.get(j));
             }
             //System.out.println("block: " + blocks.toString());
@@ -34,7 +33,6 @@ public class PopulationPuzzle2 {
                 //System.out.println(twr.toString());
                 population.add(twr);
             }
-
         }
 
         //System.out.println("Population: " + population.toString());
@@ -44,7 +42,13 @@ public class PopulationPuzzle2 {
     int getFittestIndex() {
         int fittestIndex = 0;
         for(int i = 0; i < population.size(); i++) {
-            System.out.println("Population i: " + population.get(i));
+            System.out.println("Population " + i + " score is: " + population.get(i).getScore());
+            ArrayList<String> myTBs = new ArrayList<>();
+            for (TowerBlock tb: population.get(i).getTowerBlocks()) {
+                myTBs.add(tb.getType());
+            }
+            System.out.println("Population blocks are: " + myTBs);
+
             int currentFitness = population.get(i).getScore();
             int mostFit = population.get(fittestIndex).getScore();
             sumscore += population.get(i).getScore();
@@ -113,9 +117,9 @@ public class PopulationPuzzle2 {
 
     double getProbability(int index) {
         int indivScore = population.get(index).getScore();
-        System.out.println("My indiv score is: " + indivScore);
+        //System.out.println("My indiv score is: " + indivScore);
         //int totalScore = totalScore();
-        System.out.println("Sum: " + sumscore);
+        //System.out.println("Sum: " + sumscore);
         double probability = (double) indivScore/sumscore;
         return probability;
     }
